@@ -244,7 +244,7 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             Toast.makeText(applicationContext, getString(R.string.iperror), Toast.LENGTH_SHORT).show()
-            doSometingAfterToast(3000)
+            doSomethingAfterToast()
         }
     }
 
@@ -338,14 +338,14 @@ class MainActivity : AppCompatActivity() {
                         "Часы с IP $wearIp недоступны",
                         Toast.LENGTH_SHORT
                     ).show()
-                    doSometingAfterToast(3000)
+                    doSomethingAfterToast()
                 }
             }
         }.start()
     }
 
-    private fun doSometingAfterToast(toastLength: Int) {
-        Handler(mainLooper).postDelayed({ showDialog() }, toastLength.toLong())
+    private fun doSomethingAfterToast() {
+        Handler(mainLooper).postDelayed({ showDialog() }, 3000)
     }
 
     private fun saveLastIpAndLogin() {
