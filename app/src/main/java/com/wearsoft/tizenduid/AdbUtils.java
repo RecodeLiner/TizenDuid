@@ -2,10 +2,7 @@ package com.wearsoft.tizenduid;
 
 import com.cgutman.adblib.AdbCrypto;
 
-import java.io.Closeable;
 import java.io.File;
-import java.io.IOException;
-import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 
@@ -23,8 +20,7 @@ public class AdbUtils {
         {
             try {
                 crypto = AdbCrypto.loadAdbKeyPair(new AndroidBase64(), privKey, pubKey);
-            } catch (Exception e) {
-                crypto = null;
+            } catch (Exception ignored) {
             }
         }
 
@@ -35,15 +31,14 @@ public class AdbUtils {
         File pubKey = new File(dataDir, PUBLIC_KEY_NAME);
         File privKey = new File(dataDir, PRIVATE_KEY_NAME);
 
-        KeyPairGenerator rsaKeyPg = null;
+        KeyPairGenerator rsaKeyPg;
         try {
             rsaKeyPg = KeyPairGenerator.getInstance("RSA");
             rsaKeyPg.initialize(2048);
-            KeyPair keyPair = rsaKeyPg.genKeyPair();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        AdbCrypto crypto = null;
+        AdbCrypto crypto;
 
         try {
             crypto = AdbCrypto.generateAdbKeyPair(new AndroidBase64());
@@ -56,17 +51,5 @@ public class AdbUtils {
         return crypto;
     }
 
-    public static boolean safeClose(Closeable c) {
-        if (c == null)
-            return false;
-
-        try {
-            c.close();
-        } catch (IOException e) {
-            return false;
-        }
-
-        return true;
-    }
 }
 
