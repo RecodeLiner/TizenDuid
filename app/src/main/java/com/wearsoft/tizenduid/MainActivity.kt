@@ -22,6 +22,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.cgutman.adblib.AdbCrypto
+import com.wearsoft.tizenduid.databinding.ActivityMainBinding
 import java.lang.reflect.Method
 import java.net.ConnectException
 import java.net.InetAddress
@@ -38,6 +39,7 @@ private const val DefaultIPValue = "192.168.0."
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
     private var bluetoothPermission = false
     private var wearIp: String = ""
     private var phoneIp: String = ""
@@ -83,17 +85,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        watchModelTextView = findViewById(R.id.model)
-        watchProductTextView = findViewById(R.id.product)
-        watchDuidTextView = findViewById(R.id.duid)
-        helpTextView = findViewById(R.id.helpText)
-        phoneWiFiIcon = findViewById(R.id.phoneWiFi)
-        watchConnectionIcon = findViewById(R.id.btConnection)
-        watchWiFiIcon = findViewById(R.id.watchWiFi)
-        watchSdbIcon = findViewById(R.id.adbEnabled)
-        watchImage = findViewById(R.id.watch)
-        copyButton = findViewById(R.id.button)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        watchModelTextView = binding.model
+        watchProductTextView = binding.product
+        watchDuidTextView = binding.duid
+        helpTextView = binding.helpText
+        phoneWiFiIcon = binding.phoneWiFi
+        watchConnectionIcon = binding.btConnection
+        watchWiFiIcon = binding.watchWiFi
+        watchSdbIcon = binding.adbEnabled
+        watchImage = binding.watch
+        copyButton = binding.button
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -130,7 +133,7 @@ class MainActivity : AppCompatActivity() {
                     val netAddressNumber: Int = linkProperties.linkAddresses.size
                     if (netAddressNumber > 1) {
                         val ipAdr: InetAddress = linkProperties.linkAddresses[1].address
-                        phoneIp = ipAdr.toString().replace("/","");
+                        phoneIp = ipAdr.toString().replace("/","")
                         phoneNetwork = phoneIp.substring(0, phoneIp.lastIndexOf("."))
                         runOnUiThread {
                             phoneWiFiIcon.setImageResource(R.drawable.phonewifion)
@@ -156,7 +159,6 @@ class MainActivity : AppCompatActivity() {
             val pairedDevices = btManager.adapter.bondedDevices
 
             if (pairedDevices.size > 0) {
-                var i = 0
                 for (device in pairedDevices) {
                     val deviceName = device.name
                     if (isConnected(device) && deviceName.contains("Galaxy") && !deviceName.contains("4 ")) {
@@ -183,7 +185,7 @@ class MainActivity : AppCompatActivity() {
         input.inputType = InputType.TYPE_CLASS_TEXT
         builder.setView(input)
 
-        builder.setPositiveButton("OK", DialogInterface.OnClickListener { _, _ ->
+        builder.setPositiveButton("OK") { _, _ ->
             // Here you get get input text from the Edittext
             wearIp = input.text.toString()
             if (wearIp.contains(":")) {
@@ -191,8 +193,8 @@ class MainActivity : AppCompatActivity() {
             }
             helpTextView.text = getString(R.string.searching)
             getAdbKeys()
-        })
-        builder.setNegativeButton(getString(R.string.cancel), DialogInterface.OnClickListener { dialog, _ -> dialog.cancel() })
+        }
+        builder.setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.cancel() }
 
         val dialog = builder.create()
         dialog.setCanceledOnTouchOutside(false)
@@ -228,8 +230,8 @@ class MainActivity : AppCompatActivity() {
             val crypto: AdbCrypto? = AdbUtils.readCryptoConfig(filesDir)
             if (crypto == null) {
                 runOnUiThread {
-                    val crypto: AdbCrypto? = AdbUtils.writeNewCryptoConfig(filesDir)
-                    if (crypto == null) {
+                    val cryptos: AdbCrypto? = AdbUtils.writeNewCryptoConfig(filesDir)
+                    if (cryptos == null) {
                         helpTextView.text = getString(R.string.rsaerror)
                         return@runOnUiThread
                     } else {
@@ -246,9 +248,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun sendAdbHello() {
 
-        Thread(Runnable {
+        Thread {
             dsdb = Dsdb.create(filesDir, wearIp, sdbPort)
             try {
                 Timer().schedule(timerTask {
@@ -269,14 +272,21 @@ class MainActivity : AppCompatActivity() {
                     val m = dsdb.connectionString()
                     if (m.isNotEmpty()) {
                         runOnUiThread {
-                            watchModelTextView.text = String.format(getString(R.string.model), m.toString())
+                            watchModelTextView.text =
+                                String.format(getString(R.string.model), m.toString())
                         }
-                        if (m.contains("SM-R800") || m.contains("SM-R805") || m.contains("SM-R810") || m.contains("SM-R815")) {
+                        if (m.contains("SM-R800") || m.contains("SM-R805") || m.contains("SM-R810") || m.contains(
+                                "SM-R815"
+                            )
+                        ) {
                             runOnUiThread {
                                 watchImage.setImageResource(R.drawable.gw)
                             }
                         }
-                        if (m.contains("SM-R855") || m.contains("SM-845F") || m.contains("SM-R845") || m.contains("SM-R850") || m.contains("SM-840")) {
+                        if (m.contains("SM-R855") || m.contains("SM-845F") || m.contains("SM-R845") || m.contains(
+                                "SM-R850"
+                            ) || m.contains("SM-840")
+                        ) {
                             runOnUiThread {
                                 watchImage.setImageResource(R.drawable.gw3)
                             }
@@ -286,7 +296,10 @@ class MainActivity : AppCompatActivity() {
                                 watchImage.setImageResource(R.drawable.gwactive)
                             }
                         }
-                        if (m.contains("SM-R820") || m.contains("SM-R825") || m.contains("SM-R830") || m.contains("SM-R835")) {
+                        if (m.contains("SM-R820") || m.contains("SM-R825") || m.contains("SM-R830") || m.contains(
+                                "SM-R835"
+                            )
+                        ) {
                             runOnUiThread {
                                 watchImage.setImageResource(R.drawable.gwactive2)
                             }
@@ -320,11 +333,15 @@ class MainActivity : AppCompatActivity() {
             } catch (e: NoRouteToHostException) {
                 runOnUiThread {
                     watchSuspend = true
-                    Toast.makeText(applicationContext, "Часы с IP $wearIp недоступны", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        applicationContext,
+                        "Часы с IP $wearIp недоступны",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     doSometingAfterToast(3000)
                 }
             }
-        }).start()
+        }.start()
     }
 
     private fun doSometingAfterToast(toastLength: Int) {
