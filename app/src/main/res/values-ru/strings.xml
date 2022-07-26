@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TizenDuid</string>
+    <string name="phonewifi">Телефон не подключен к WiFi</string>
+    <string name="phonewifioff">WiFi в телефоне выключен</string>
+    <string name="btpermission">Нет зарешения для Bluetooth</string>
+    <string name="product">Продукт: %1$s</string>
+    <string name="model">Модель: %1$s</string>
+    <string name="watchIp">IP адрес часов</string>
+    <string name="cancel">Отмена</string>
+    <string name="rsaerror">Ошибка генерации ключей</string>
+    <string name="rsaok">Ключи сгенерированы</string>
+    <string name="iperror">Некорректный IP адрес</string>
+    <string name="searching">Поиск часов</string>
+    <string name="conerror">Ошибка подключения</string>
+    <string name="copied">Duid скопирован в буфер</string>
+    <string name="notfound">Часы не найдены или нет разрешения SDB</string>
+    <string name="copy_duid">Копировать DUID</string>
+    <string name="acra_toast_text">В приложении произошел сбой. Пожалуйста, отправьте отчет любым почтовым приложением.</string>
+    <string name="mail_subject">TizenDuid отчет о сбое</string>
+    <string name="mail_body">Сбой приложения</string>
+</resources>

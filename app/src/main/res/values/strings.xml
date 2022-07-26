@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">TizenDuid</string>
+    <string name="phonewifi">No WiFi connection on phone</string>
+    <string name="phonewifioff">WiFi is turned off on phone</string>
+    <string name="btpermission">Need Bluetooth permission</string>
+    <string name="product">Product: %1$s</string>
+    <string name="model">Model: %1$s</string>
+    <string name="watchIp">Watch IP address</string>
+    <string name="cancel">Cancel</string>
+    <string name="rsaerror">RSA keys generation error</string>
+    <string name="rsaok">RSA keys generated</string>
+    <string name="iperror">Incorrect IP address</string>
+    <string name="searching">Searching</string>
+    <string name="conerror">Connection error</string>
+    <string name="copied">Duid copied to clipboard</string>
+    <string name="notfound">Watch not found or no SDB permission</string>
+    <string name="copy_duid">Copy DUID</string>
+    <string name="acra_toast_text">App crashed. Send crash report via email.</string>
+    <string name="mail_subject">TizenDuid Crash report</string>
+    <string name="mail_body">Crash</string>
+</resources>
