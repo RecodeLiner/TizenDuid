@@ -2,21 +2,12 @@ package com.wearsoft.tizenduid
 
 import okio.Buffer
 import okio.BufferedSource
-import java.nio.charset.StandardCharsets
-
-const val ID_STDIN = 0
-const val ID_STDOUT = 1
-const val ID_STDERR = 2
-const val ID_EXIT = 3
-const val ID_CLOSE_STDIN = 3
 
 internal class SdbMessage(
     val command: Int,
     val arg0: Int,
     val arg1: Int,
     val payloadLength: Int,
-    val checksum: Int,
-    val magic: Int,
     val payload: ByteArray
 ) {
 
@@ -45,7 +36,7 @@ internal class SdbMessage(
         if (id < 0 || id > 3) return null
         val length = source.readIntLe()
         if (length != source.buffer.size.toInt()) return null
-        if (id == ID_EXIT) return "[shell] exit(${source.readByte()})"
+        if (id == 3) return "[shell] exit(${source.readByte()})"
         val payload = String(payload, 5, payloadLength - 5)
         return "[shell] $payload"
     }
@@ -57,12 +48,12 @@ internal class SdbMessage(
     private fun argStr(arg: Int) = String.format("%X", arg)
 
     private fun commandStr() = when (command) {
-        Constants.CMD_AUTH -> "AUTH";
-        Constants.CMD_CNXN -> "CNXN";
-        Constants.CMD_OPEN -> "OPEN";
-        Constants.CMD_OKAY -> "OKAY";
-        Constants.CMD_CLSE -> "CLSE";
-        Constants.CMD_WRTE -> "WRTE";
+        Constants.CMD_AUTH -> "AUTH"
+        Constants.CMD_CNXN -> "CNXN"
+        Constants.CMD_OPEN -> "OPEN"
+        Constants.CMD_OKAY -> "OKAY"
+        Constants.CMD_CLSE -> "CLSE"
+        Constants.CMD_WRTE -> "WRTE"
         else -> "????"
     }
 }

@@ -24,7 +24,7 @@ class AdbKeyPair(
     private val base64: AdbBase64 = AndroidBase64()
 
     @Throws(IOException::class)
-    fun getAdbPublicKeyPayload(): ByteArray? {
+    fun getAdbPublicKeyPayload(): ByteArray {
         val convertedKey = convertRsaPublicKeyToAdbFormat(keyPair.public as RSAPublicKey)
         val keyString = StringBuilder(720)
         keyString.append(base64.encodeToString(convertedKey))
@@ -65,7 +65,7 @@ class AdbKeyPair(
         var var14 = myN
         var var13 = myN.size
         var i: Int
-        var var12: Int = 0
+        var var12 = 0
         while (var12 < var13) {
             i = var14[var12]
             bbuf.putInt(i)
@@ -85,6 +85,7 @@ class AdbKeyPair(
 
     companion object {
 
+        @OptIn(ExperimentalUnsignedTypes::class)
         private val SIGNATURE_PADDING = ubyteArrayOf(
             0x00u, 0x01u, 0xffu, 0xffu, 0xffu, 0xffu, 0xffu, 0xffu, 0xffu, 0xffu, 0xffu, 0xffu, 0xffu,
             0xffu, 0xffu, 0xffu, 0xffu, 0xffu, 0xffu, 0xffu, 0xffu, 0xffu, 0xffu, 0xffu, 0xffu, 0xffu,

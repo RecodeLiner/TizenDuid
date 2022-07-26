@@ -35,18 +35,6 @@ internal class SdbWriter(sink: Sink) : AutoCloseable {
         write(Constants.CMD_OPEN, localId, 0, payload, 0, payload.size)
     }
 
-    fun writeOpenCapability(localId: Int, destination: String) {
-        val buffer = ByteBuffer.allocate(destination.length + 1)
-        buffer.put(destination.toByteArray())
-        buffer.put(0)
-        val payload = buffer.array()
-        write(Constants.CMD_OPEN, localId, 0, payload, 0, payload.size)
-    }
-
-    fun writeWrite(localId: Int, remoteId: Int, payload: ByteArray, offset: Int, length: Int) {
-        write(Constants.CMD_WRTE, localId, remoteId, payload, offset, length)
-    }
-
     fun writeClose(localId: Int, remoteId: Int) {
         write(Constants.CMD_CLSE, localId, remoteId, null, 0, 0)
     }
@@ -55,7 +43,7 @@ internal class SdbWriter(sink: Sink) : AutoCloseable {
         write(Constants.CMD_OKAY, localId, remoteId, null, 0, 0)
     }
 
-    fun write(
+    private fun write(
         command: Int,
         arg0: Int,
         arg1: Int,
@@ -64,7 +52,13 @@ internal class SdbWriter(sink: Sink) : AutoCloseable {
         length: Int
     ) {
         Log.d("RUMA2", "MSG: $command, $arg0, $arg1, $length")
-        log { "(${Thread.currentThread().name}) > ${SdbMessage(command, arg0, arg1, length, 0, 0, payload ?: ByteArray(0))}" }
+        logging { "(${Thread.currentThread().name}) > ${SdbMessage(
+            command,
+            arg0,
+            arg1,
+            length,
+            payload ?: ByteArray(0)
+        )}" }
         synchronized(bufferedSink) {
             bufferedSink.apply {
                 writeIntLe(command)
@@ -88,6 +82,12 @@ internal class SdbWriter(sink: Sink) : AutoCloseable {
 
     override fun close() {
         bufferedSink.close()
+    }
+
+    private fun logging(block: () -> String) {
+        if (System.getenv("DADB_LOGGING").toBoolean()) {
+            println(block())
+        }
     }
 
     companion object {

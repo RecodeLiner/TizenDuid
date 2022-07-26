@@ -15,12 +15,12 @@ internal class SdbReader(source: Source) : AutoCloseable {
                 val arg0 = readIntLe()
                 val arg1 = readIntLe()
                 val payloadLength = readIntLe()
-                val checksum = readIntLe()
-                val magic = readIntLe()
+                readIntLe()
+                readIntLe()
                 val payload = readByteArray(payloadLength.toLong())
                 Log.d("RUMA2", "REP: $command, $arg0, $arg1")
-                return SdbMessage(command, arg0, arg1, payloadLength, checksum, magic, payload).also {
-                    log { "(${Thread.currentThread().name}) < $it" }
+                return SdbMessage(command, arg0, arg1, payloadLength, payload).also {
+                    logging { "(${Thread.currentThread().name}) < $it" }
                 }
             }
         }
@@ -28,5 +28,11 @@ internal class SdbReader(source: Source) : AutoCloseable {
 
     override fun close() {
         bufferedSource.close()
+    }
+
+     private fun logging(block: () -> String) {
+        if (System.getenv("DADB_LOGGING").toBoolean()) {
+            println(block())
+        }
     }
 }

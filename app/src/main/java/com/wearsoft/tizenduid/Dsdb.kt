@@ -20,9 +20,9 @@ interface Dsdb : AutoCloseable {
     }
 
     @Throws(IOException::class)
-    fun openShell(command: String = ""): SdbShellStream {
+    fun openShell(command: String = ""): SdbShell {
         val stream = open("shell:$command")
-        return SdbShellStream(stream)
+        return SdbShell(stream)
     }
 
     companion object {
