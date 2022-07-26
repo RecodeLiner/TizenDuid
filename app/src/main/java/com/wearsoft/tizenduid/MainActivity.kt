@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.content.*
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.LinkProperties
 import android.net.Network
@@ -22,6 +23,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.cgutman.adblib.AdbCrypto
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.wearsoft.tizenduid.databinding.ActivityMainBinding
 import java.lang.reflect.Method
 import java.net.ConnectException
@@ -177,7 +179,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showDialog(){
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        val builder = MaterialAlertDialogBuilder(this)
         builder.setTitle(getString(R.string.watchIp))
 
         val input = EditText(this)
@@ -195,6 +197,7 @@ class MainActivity : AppCompatActivity() {
             getAdbKeys()
         }
         builder.setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.cancel() }
+
 
         val dialog = builder.create()
         dialog.setCanceledOnTouchOutside(false)
