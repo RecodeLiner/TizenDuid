@@ -287,7 +287,7 @@ class MainActivity : AppCompatActivity() {
                         }
                         if (m.contains("SM-R855") || m.contains("SM-845F") || m.contains("SM-R845") || m.contains(
                                 "SM-R850"
-                            ) || m.contains("SM-840")
+                            ) || m.contains("SM-R840")
                         ) {
                             runOnUiThread {
                                 watchImage.setImageResource(R.drawable.gw3)
