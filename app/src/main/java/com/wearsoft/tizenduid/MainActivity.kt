@@ -136,7 +136,6 @@ class MainActivity : AppCompatActivity() {
                     if (netAddressNumber > 1) {
                         val ipAdr: InetAddress = linkProperties.linkAddresses[1].address
                         phoneIp = ipAdr.toString().replace("/","")
-                        phoneNetwork = phoneIp.substring(0, phoneIp.lastIndexOf("."))
                         runOnUiThread {
                             phoneWiFiIcon.setImageResource(R.drawable.phonewifion)
                         }
@@ -228,7 +227,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getAdbKeys() {
         val wearNetwork = wearIp.substring(0, wearIp.lastIndexOf("."))
-        if (isValidIPAddress(wearIp) && wearNetwork == phoneNetwork) {
+        if (isValidIPAddress(wearIp)) {
 
             val crypto: AdbCrypto? = AdbUtils.readCryptoConfig(filesDir)
             if (crypto == null) {
