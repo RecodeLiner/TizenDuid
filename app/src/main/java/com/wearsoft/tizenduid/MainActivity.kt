@@ -178,7 +178,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showDialog(){
-        val builder = MaterialAlertDialogBuilder(this)
+        val builder = MaterialAlertDialogBuilder(this, R.style.MyThemeOverlay_MaterialComponents_MaterialAlertDialog)
         builder.setTitle(getString(R.string.watchIp))
 
         val input = EditText(this)
