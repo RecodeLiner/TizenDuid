@@ -20,12 +20,13 @@
     <style name="MyThemeOverlay.MaterialComponents.MaterialAlertDialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
-        <item name="materialAlertDialogBodyTextStyle">@style/MaterialAlertDialog.App.Body.Text.HighContrast</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/TitleTextStyle</item>
     </style>
 
-    <style name="MaterialAlertDialog.App.Body.Text.HighContrast" parent="@style/MaterialAlertDialog.MaterialComponents.Body.Text">
+    <style name="TitleTextStyle" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
         <item name="android:textColor">?android:textColor</item>
     </style>
+
     <style name="PositiveButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">?android:textColor</item>
     </style>
