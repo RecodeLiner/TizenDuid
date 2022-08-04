@@ -1,6 +1,5 @@
 package com.wearsoft.tizenduid
 
-import org.jetbrains.annotations.TestOnly
 import java.net.Socket
 
 internal class DsdbImpl(
@@ -8,8 +7,6 @@ internal class DsdbImpl(
     private val port: Int,
     private val keyPair: AdbKeyPair? = null
 ) : Dsdb {
-
-    var model = ""
 
     private var connection: Pair<SdbConnection, Socket>? = null
 
@@ -27,11 +24,6 @@ internal class DsdbImpl(
         connection?.first?.close()
     }
     override fun toString() = "$host:$port"
-
-    @TestOnly
-    fun closeConnection() {
-        connection?.second?.close()
-    }
 
     @Synchronized
     private fun connection(): SdbConnection {

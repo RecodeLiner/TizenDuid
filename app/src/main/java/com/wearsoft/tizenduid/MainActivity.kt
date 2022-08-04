@@ -5,9 +5,11 @@ import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
-import android.content.*
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.LinkProperties
 import android.net.Network
@@ -19,7 +21,6 @@ import android.os.Handler
 import android.text.InputType
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.cgutman.adblib.AdbCrypto
@@ -45,7 +46,6 @@ class MainActivity : AppCompatActivity() {
     private var bluetoothPermission = false
     private var wearIp: String = ""
     private var phoneIp: String = ""
-    private var phoneNetwork = ""
     private var appActive = false
     private var tizenDevice = ""
     private var sdbPort = 26101
@@ -226,7 +226,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getAdbKeys() {
-        val wearNetwork = wearIp.substring(0, wearIp.lastIndexOf("."))
+        wearIp.substring(0, wearIp.lastIndexOf("."))
         if (isValidIPAddress(wearIp)) {
 
             val crypto: AdbCrypto? = AdbUtils.readCryptoConfig(filesDir)
