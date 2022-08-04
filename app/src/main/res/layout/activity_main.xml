@@ -53,15 +53,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/product" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:background="@drawable/round_corner"
-            android:backgroundTint="?attr/colorPrimary"
+            android:backgroundTint="?attr/background"
             android:text="@string/copy_duid"
             android:textColor="?android:textColor"
+            android:padding="20dp"
+            app:strokeColor="?attr/colorSecondary"
+            app:strokeWidth="1dp"
+            app:cornerRadius="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/duid" />
