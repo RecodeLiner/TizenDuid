@@ -1,6 +1,6 @@
 ## About 
 
-Tool for parse Tizen duid from mobile phone. 
+Tool for parse Tizen Duid from mobile phone. 
 
 ## Contributors
 
