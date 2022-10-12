@@ -1,9 +1,9 @@
 ## About 
 
-Tool for parse Tizen duid from mobile phone. 
+Tool for parse Tizen Duid from mobile phone. 
 
 ## Contributors
 
-- [RecodeLiner](https://github.com/RecodeLiner)
+- [ReСodeLiner](https://github.com/RecodeLiner)
 
 - [PanDurko](https://github.com/PanDurko)
